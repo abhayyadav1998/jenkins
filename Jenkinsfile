@@ -10,19 +10,19 @@ environment{
             }
         }
         stage ('stage tewo'){
+            environment{
+               ENV_URL2= 'env.yadav'
+                }
             steps{
                 echo "Hello world"
-                environment{
-               ENV_URL2= 'env.rakesh'
-                }
             }
         }
         stage ('stage three'){
-            steps{
-                sh '''
-             environment{
+            environment{
                ENV_URL= 'env.yadav'
                 }
+            steps{
+                sh '''
                 echo "Hello world"
                 echo "ENV_URL= $ENV_URL"
                 echo "ENV_URL2= $ENV_URL"
