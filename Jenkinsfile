@@ -25,7 +25,7 @@ environment{
                 sh '''
                 echo "Hello world"
                 echo "ENV_URL= $ENV_URL"
-                echo "ENV_URL2= $ENV_URL"
+                echo "ENV_URL2= $ENV_URL2"
 
                 '''
             }
