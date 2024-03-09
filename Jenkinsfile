@@ -1,6 +1,6 @@
 pipeline{
     agent any
-envirnoment{
+environment{
     ENV_URL= 'env.abhay'
 }
     stages{
