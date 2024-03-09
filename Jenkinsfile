@@ -1,7 +1,7 @@
 pipeline{
     agent any
 envirnoment{
-    ENV_URL=env.abhay
+    ENV_URL= 'env.abhay'
 }
     stages{
         stage ('stage one'){
