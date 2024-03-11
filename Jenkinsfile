@@ -16,8 +16,8 @@ environment{
 }
 triggers{
 
-     cron('*/2 * * * *')
-     
+     cron('H/2 * * * *')
+     //Spread load evenly by using ‘H/2 * * * *’ rather than ‘*/2 * * * *’
       }
     stages{
         stage ('stage one'){
