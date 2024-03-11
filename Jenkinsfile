@@ -22,7 +22,10 @@ triggers{
     stages{
         stage ('stage one'){
             steps{
+                sh '''
                 echo "Hello world"
+                mvn clean
+                '''
             }
         }
         stage ('stage tewo'){
