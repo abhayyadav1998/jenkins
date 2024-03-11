@@ -14,6 +14,11 @@ parameters {
 environment{
     ENV_URL= 'env.abhay'
 }
+triggers{
+
+     cron('*/2 * * * *')
+     
+      }
     stages{
         stage ('stage one'){
             steps{
