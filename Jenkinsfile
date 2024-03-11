@@ -19,11 +19,15 @@ triggers{
      cron('* * 1 9 *')
      //Spread load evenly by using ‘H/2 * * * *’ rather than ‘*/2 * * * *’
       }
+tools {
+        maven 'maven-3.8.5' 
+    }
     stages{
         stage ('stage one'){
             steps{
                 sh '''
                 echo "Hello world"
+                mvn --version
                 mvn clean
                 '''
             }
