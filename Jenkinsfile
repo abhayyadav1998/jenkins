@@ -28,7 +28,6 @@ tools {
                 sh '''
                 echo "Hello world"
                 mvn --version
-                mvn clean
                 '''
             }
         }
