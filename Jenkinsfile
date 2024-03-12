@@ -32,7 +32,7 @@ tools {
                 '''
             }
         }
-        stage ('stage tewo'){
+        stage ('stage two'){
             input {
                 message "Are you sure ? you would like to continue if yes did you confirm eith Devops Lead"
                 ok "Yes, we should."
@@ -40,6 +40,7 @@ tools {
                 parameters {
                     string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
                 }
+            }
             environment{
                ENV_URL2= 'env.yadav'
                 }
