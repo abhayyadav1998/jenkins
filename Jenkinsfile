@@ -33,8 +33,8 @@ tools {
         }
 
    
-        stage(two){
-            when {environment name: 'CHOICE', value: 'one'}
+        stage('two'){
+            when {environment name: 'CHOICE', value: 'One'}
             steps{
                 echo "this massage is from choice ONE"
             }
