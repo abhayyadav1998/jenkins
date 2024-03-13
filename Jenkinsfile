@@ -69,31 +69,31 @@
 pipeline{
     agent any
     stages{
-        stage('parallel stage'){
-        parellel{
+        stage('parallel stage') {
+        parellel {
         stage('one'){
             steps{
                 sh '''
                 sleep 3
                 '''
             }
-        }
-        stage('two'){
+         }
+         stage('two'){
             steps{
                 sh '''
                 sleep 5
                 '''
             }
-        }
-        stage('three'){
+         }
+         stage('three'){
             steps{
                 sh '''
                 sleep 7
                 '''
             }
-        }
+          }
          }
-    }
+     }
         stage('four'){
             steps{
                 sh '''
