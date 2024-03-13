@@ -56,7 +56,6 @@ tools {
             steps{
                 echo "Hello world"
             }
-        }
         stage ('stage three'){
             environment{
                ENV_URL= 'env.yadav'
@@ -71,3 +70,4 @@ tools {
             }
         }
     }
+}
