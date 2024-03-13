@@ -69,8 +69,8 @@
 pipeline{
     agent any
     stages{
-        //stage('parallel stage') {
-        parellel {
+        stage('parallel stage') {
+        parallel {
         stage('one'){
             steps{
                 sh '''
@@ -93,7 +93,7 @@ pipeline{
             }
           }
          }
-     //}
+     }
         stage('four'){
             steps{
                 sh '''
