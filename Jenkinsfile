@@ -50,12 +50,6 @@ tools {
         //             string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
         //         }
         //     }?
-            environment{
-               ENV_URL2= 'env.yadav'
-                }
-            steps{
-                echo "Hello world"
-            }
         stage ('stage three'){
             environment{
                ENV_URL= 'env.yadav'
