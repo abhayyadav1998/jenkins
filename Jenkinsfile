@@ -67,7 +67,7 @@
 // }
 
 pipeline{
-    agent any
+    agent {label 'jobs'}
     stages{
         stage('parallel stage') {
         parallel {
@@ -82,6 +82,7 @@ pipeline{
             steps{
                 sh '''
                 sleep 5
+                curl ipconfig.co
                 '''
             }
          }
