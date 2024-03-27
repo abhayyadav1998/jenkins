@@ -1,105 +1,34 @@
-// pipeline{
-//     agent any
-// parameters {
-//         string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
-
-//         text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
-
-//         booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
-
-//         choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something')
-
-//         password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
-//     }
-// environment{
-//     ENV_URL= 'env.abhay'
-// }
-// triggers{
-
-//      cron('* * 1 9 *')
-//      //Spread load evenly by using ‘H/2 * * * *’ rather than ‘*/2 * * * *’
-//       }
-// tools {
-//         maven 'maven-3.8.5' 
-//     }
-//     stages{
-//         stage ('stage one'){
-//             steps{
-//                 sh '''
-//                 echo "Hello world"
-//                 mvn --version
-//                 '''
-//             }
-//         }
-
-   
-//         stage('two'){
-//             when {environment name: 'CHOICE', value: 'One'}
-//             steps{
-//                 echo "this massage is from choice ONE"
-//             }
-
-//         }
-    
-//         // stage ('stage two'){
-//         //     input {
-//         //         message "Are you sure ? you would like to continue if yes did you confirm eith Devops Lead"
-//         //         ok "Yes, we should."
-//         //         submitter "alice,bob"
-//         //         parameters {
-//         //             string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
-//         //         }
-//         //     }?
-//         stage ('stage three'){
-//             environment{
-//                ENV_URL= 'env.yadav'
-//                 }
-//             steps{
-//                 sh '''
-//                 echo "Hello world"
-//                 echo "ENV_URL= $ENV_URL"
-//                 echo "ENV_URL2= $ENV_URL2"
-
-//                 '''
-//             }
-//         }
-//     }
-// }
-
 pipeline{
     agent any
+    parameters{
+        choice(name: 'ENV', choices: ['Dev', 'Prod'], description: 'chose the environment')
+        string(name: 'COMPONENT', defaultvalue: 'mongodb', description: 'Enter the name of the component')
+    }
+    environment{
+        SSH_CRED = credentials ('SSH-Centos7')  
+    }
     stages{
-        stage('parallel stage') {
-        parallel {
-        stage('one'){
+        stage('Lint checks'){
+            when {branch pattern: 'feature-.*', comparator: "REGEXP"}
             steps{
-                sh '''
-                sleep 3
-                '''
-            }
-         }
-         stage('two'){
+                sh "env"
+                sh "echo Style checks"
+                sh "echo running is feature branch"  
+            
+             }
+        }
+        stage('Do a dry-run'){  //this will only execute only when you raise the PR
             steps{
-                sh '''
-                sleep 5
-                '''
-            }
-         }
-         stage('three'){
-            steps{
-                sh '''
-                sleep 7
-                '''
-            }
-          }
-         }
-     }
-        stage('four'){
-            steps{
-                sh '''
-                sleep 10
-                '''
+                sh "env"  // just to see the envirment variables to see the envirnoment variable as a part of the pipeline
+                sh "ansible-playbook robot-dryrun.yml ansible_usr=${SSH_CRED_USR} ansible_password=${SSH_CRED_PSW} -e COMPONENT=${params.COMPONENT} -e ENV=${params.ENV}"
+
             }
         }
+        stage('Promote to Prod')
+        when { branch 'main'}
+        steps{
+            sh "echo runs only when you pushed the git tag"
+        }
     }
+    
 }

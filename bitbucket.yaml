@@ -1,0 +1,49 @@
+# After merging code to master the infrastructure will be deployed to cloud according to the given terraform template.
+
+# Prerequisites: credentials according to used cloud provider.
+
+image: atlassian/default-image:2
+pipelines:
+  branches:
+    # Define the branch you want to deploy from
+    master:
+   custom:
+     Enter the Environment to deployment:
+      - variables:
+          - name: Environment
+            default: stage
+            allowed-values:
+            - pre-prod
+            - prod
+            - stage
+      - step:
+          name: Security Scan
+          script:
+            # Run a security scan for sensitive data.
+            # See more security tools at https://bitucket.org/product/features/pipelines/integrations?&category=security
+            - pipe: atlassian/git-secrets-scan:1.2.1
+              variables:
+                FILES: '*.yml'
+
+      - step:
+          name: Deploying stage Environment
+          deployment: stage
+          script:
+            - |
+              if [ "$Environment" = "stage" ]; then
+                 echo "Deployment of $Environment will start soon!!"
+                 bash ./CI/scripts/stage.sh
+              else
+                 echo " stage environment can be deployed any Branch"
+                fi
+      - step:          
+          name: Deploying prod Environment
+          deployment: prod
+          script:
+            - |
+              if [ "$Environment" = "prod" ] && [ "$BITBUCKET_BRANCH" = "master" ]; then
+                 echo "Deployment of pre-prod will start soon!!"
+                 bash ./CI/scripts/prod.sh
+              else
+                 echo " Production environment should only be deployed from master Branch"
+                fi   
